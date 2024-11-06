@@ -1,0 +1,1 @@
+ALTER TABLE order_entity ALTER COLUMN status TYPE smallint USING status::smallint;
