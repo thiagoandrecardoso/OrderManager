@@ -2,6 +2,7 @@ package br.com.project.orderprocess.model.entities;
 
 
 import br.com.project.orderprocess.model.enums.OrderStatusType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,5 +22,6 @@ public class OrderEntity {
     private BigDecimal totalValue;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ProductEntity> products;
 }

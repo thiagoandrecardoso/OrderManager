@@ -1,5 +1,6 @@
 package br.com.project.orderprocess.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,6 @@ public class ProductEntity {
     private BigDecimal unitPrice;
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private OrderEntity order;
 }
