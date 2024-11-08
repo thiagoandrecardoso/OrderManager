@@ -1,5 +1,6 @@
 package br.com.project.orderprocess.controller;
 
+import br.com.project.orderprocess.feignclient.OrderReceiptCalculateClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -7,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -35,6 +38,10 @@ public class OrderProcessControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private OrderReceiptCalculateClient orderReceiptCalculateClient;
+
+
     @BeforeAll
     public static void setUp() {
         postgreSQLContainer.start();
@@ -50,7 +57,7 @@ public class OrderProcessControllerTest {
     }
 
     @Test
-    @Sql("/test-script/data.sql")
+    @Sql(scripts = "/test-script/data.sql")
     public void getTest() throws Exception {
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
                 .get("/order-process/P001")
@@ -61,5 +68,26 @@ public class OrderProcessControllerTest {
                 .andExpect(jsonPath("$.productCode").value("P001"))
                 .andExpect(jsonPath("$.status").value("RECEIVED"))
                 .andExpect(jsonPath("$.totalValue").value(100.00));
+    }
+
+    @Test
+    @Sql(scripts = "/test-script/data-2.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void postTestSuccess() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/order-process")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("P004")
+                .accept(MediaType.APPLICATION_JSON);
+
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+        resultActions.andExpect(status().isOk());
+
+        ResultActions resultGetByProductOrder = mockMvc.perform(MockMvcRequestBuilders
+                .get("/order-process/P004")
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultGetByProductOrder.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value("CALCULATED"));
     }
 }

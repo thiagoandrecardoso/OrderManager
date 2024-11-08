@@ -1,6 +1,5 @@
 package br.com.project.orderprocess.services;
 
-import br.com.project.orderprocess.feignclient.OrderReceiptCalculateClient;
 import br.com.project.orderprocess.mappers.OrderMapper;
 import br.com.project.orderprocess.mappers.ProductMapper;
 import br.com.project.orderprocess.model.dtos.OrderDTO;
