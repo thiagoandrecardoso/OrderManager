@@ -1,5 +1,6 @@
 package br.com.project.orderprocess.controller;
 
+import br.com.project.orderprocess.model.dtos.OrderDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -7,6 +8,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class OrderProcessControllerTest extends BaseTest {
@@ -30,7 +34,7 @@ public class OrderProcessControllerTest extends BaseTest {
     public void postTestSuccess() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/order-process")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.TEXT_PLAIN)
                 .content("P004")
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -44,6 +48,8 @@ public class OrderProcessControllerTest extends BaseTest {
         resultGetByProductOrder.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value("CALCULATED"));
+
+        verify(orderReceiptCalculateClient, times(1)).calculate(any(OrderDTO.class));
     }
 
     @Test

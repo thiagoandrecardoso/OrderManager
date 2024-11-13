@@ -25,7 +25,7 @@ public abstract class BaseTest {
     protected MockMvc mockMvc;
 
     @MockBean
-    private OrderReceiptCalculateClient orderReceiptCalculateClient;
+    protected OrderReceiptCalculateClient orderReceiptCalculateClient;
 
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
