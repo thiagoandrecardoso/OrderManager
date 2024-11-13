@@ -25,8 +25,8 @@ public class OrderProcessController {
     public ResponseEntity<Void> post(@RequestBody String productCode) {
         log.info("POST /order-process {}", productCode);
         OrderEntity byProductCode = orderProcessService.findByProductCode(productCode);
-        orderProcessService.updateStatus(byProductCode);
-        OrderDTO orderDTO = orderProcessService.processOrder(byProductCode);
+        OrderEntity updateStatus = orderProcessService.updateStatus(byProductCode);
+        OrderDTO orderDTO = orderProcessService.processOrder(updateStatus);
         orderReceiptCalculateClient.calculate(orderDTO);
         return ResponseEntity.ok().build();
     }

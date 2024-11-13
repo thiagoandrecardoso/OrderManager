@@ -20,7 +20,7 @@ public class OrderConsumer {
     private final OrderReceiptCalculateClient orderReceiptCalculateClient;
 
     @RabbitListener(queues = "${mq.queues.order-queue}")
-    public void receivingOrder(String payload){
+    public void receivingOrder(String payload) {
         var mapper = new ObjectMapper();
         try {
             OrderDTO orderDTO = mapper.readValue(payload, OrderDTO.class);
