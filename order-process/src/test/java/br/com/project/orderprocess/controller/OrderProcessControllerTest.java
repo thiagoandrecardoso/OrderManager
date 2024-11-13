@@ -1,6 +1,7 @@
 package br.com.project.orderprocess.controller;
 
 import br.com.project.orderprocess.feignclient.OrderReceiptCalculateClient;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -41,10 +42,9 @@ public class OrderProcessControllerTest {
     @MockBean
     private OrderReceiptCalculateClient orderReceiptCalculateClient;
 
-
-    @BeforeAll
-    public static void setUp() {
-        postgreSQLContainer.start();
+    @AfterAll
+    public static void tearDown() {
+        postgreSQLContainer.stop();
     }
 
     @DynamicPropertySource
