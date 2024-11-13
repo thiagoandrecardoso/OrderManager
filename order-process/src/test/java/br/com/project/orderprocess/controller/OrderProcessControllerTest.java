@@ -2,7 +2,6 @@ package br.com.project.orderprocess.controller;
 
 import br.com.project.orderprocess.feignclient.OrderReceiptCalculateClient;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,12 +92,12 @@ public class OrderProcessControllerTest {
 
     @Test
     @Sql(scripts = "/test-script/script-get-all-test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void getAllByFilterTest() throws Exception{
+    public void getAllByFilterTest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/order-process")
                 .param("orderId", "1")
-                .param("page","0")
-                .param("pageSize","10")
+                .param("page", "0")
+                .param("pageSize", "10")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
