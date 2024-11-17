@@ -26,3 +26,7 @@ SELECT *
 FROM order_entity
          JOIN public.product_entity pe on order_entity.id = pe.order_id
 ```
+
+## Documentação
+Swagger UI: http://localhost:<porta do microserviço>/swagger-ui/index.html
+API Docs: http://localhost:<porta do microserviço>/v3/api-docs

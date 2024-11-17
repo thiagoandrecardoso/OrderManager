@@ -40,3 +40,11 @@ mq:
 order:
   receipt:
     url: http://localhost:8080/order-receipt-calculate
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+

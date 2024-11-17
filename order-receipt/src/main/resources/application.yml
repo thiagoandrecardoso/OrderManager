@@ -36,3 +36,9 @@ server:
 mq:
   queues:
     order-queue: order-queue
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
