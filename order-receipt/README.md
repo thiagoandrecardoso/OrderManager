@@ -26,3 +26,8 @@ SELECT *
 FROM order_entity
          JOIN public.product_entity pe on order_entity.id = pe.order_id
 ```
+
+## REDIS
+```shell
+docker run --name my-redis -p 6379:6379 -d redis
+```

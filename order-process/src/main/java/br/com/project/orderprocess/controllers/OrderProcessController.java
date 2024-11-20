@@ -8,6 +8,7 @@ import br.com.project.orderprocess.model.entities.OrderEntity;
 import br.com.project.orderprocess.services.OrderProcessService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +33,12 @@ public class OrderProcessController {
     }
 
     @GetMapping("/{productCode}")
-    public ResponseEntity<OrderEntity> get(@PathVariable String productCode) {
+    @Cacheable("productCode")
+    public OrderDTO get(@PathVariable String productCode) {
         log.info("GET /order-process/{}", productCode);
-        OrderEntity byProductCode = orderProcessService.findByProductCode(productCode);
-        return ResponseEntity.ok(byProductCode);
+        return orderProcessService.getOrderByProductCode(productCode);
     }
+
 
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> getAllByFilter(ProductFilterDTO productFilterDTO) {
