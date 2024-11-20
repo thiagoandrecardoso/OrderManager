@@ -33,17 +33,12 @@ public class OrderProcessController {
     }
 
     @GetMapping("/{productCode}")
-    public ResponseEntity<OrderEntity> get(@PathVariable String productCode) {
+    @Cacheable("productCode")
+    public OrderDTO get(@PathVariable String productCode) {
         log.info("GET /order-process/{}", productCode);
-        OrderEntity order = getOrderEntity(productCode);
-        return ResponseEntity.ok(order);
+        return orderProcessService.getOrderByProductCode(productCode);
     }
 
-    @Cacheable(value = "order", key = "#productCode")
-    public OrderEntity getOrderEntity(String productCode) {
-        log.info("Fetching order for productCode: {}", productCode);
-        return orderProcessService.findByProductCode(productCode);
-    }
 
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> getAllByFilter(ProductFilterDTO productFilterDTO) {

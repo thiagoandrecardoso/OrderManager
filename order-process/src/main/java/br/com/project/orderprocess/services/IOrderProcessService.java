@@ -16,4 +16,6 @@ public interface IOrderProcessService {
     OrderEntity findByProductCode(String productCode);
 
     Page<ProductDTO> getAllByFilter(ProductFilterDTO productFilterDTO);
+
+    OrderDTO getOrderByProductCode(String productCode);
 }

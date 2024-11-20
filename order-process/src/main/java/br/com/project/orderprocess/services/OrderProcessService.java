@@ -11,6 +11,8 @@ import br.com.project.orderprocess.model.enums.OrderStatusType;
 import br.com.project.orderprocess.repositories.OrderRepository;
 import br.com.project.orderprocess.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class OrderProcessService implements IOrderProcessService {
 
+    private static final Logger log = LoggerFactory.getLogger(OrderProcessService.class);
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
@@ -64,5 +67,12 @@ public class OrderProcessService implements IOrderProcessService {
     public Page<ProductDTO> getAllByFilter(ProductFilterDTO productFilterDTO) {
         Page<ProductEntity> byOrderId = productRepository.findByOrderId(productFilterDTO.getOrderId(), productFilterDTO.pageable());
         return productMapper.convert(byOrderId);
+    }
+
+    @Override
+    public OrderDTO getOrderByProductCode(String productCode) {
+        log.info("Call getOrderByProductCode with productCode: {}", productCode);
+        OrderEntity byProductCode = orderRepository.findByProductCode(productCode);
+        return orderMapper.convet(byProductCode);
     }
 }
