@@ -6,6 +6,8 @@ spring:
     port: 5672
     username: guest
     password: guest
+  cache:
+    type: redis
 
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
@@ -40,3 +42,4 @@ mq:
 order:
   receipt:
     url: http://localhost:8080/order-receipt-calculate
+

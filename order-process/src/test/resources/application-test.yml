@@ -4,6 +4,8 @@ spring:
     username: testuser
     password: testpassword
     driver-class-name: org.postgresql.Driver
+  cache:
+    type: none
 
   flyway:
     enabled: true
